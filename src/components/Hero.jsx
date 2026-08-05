@@ -1,6 +1,21 @@
 import CountUp from './CountUp.jsx'
 
-export default function Hero() {
+const DEFAULT_STATS = [
+  { num: '92', label: '高频FAQ知识条目' },
+  { num: '3,427', label: '首周跨端去重用户' },
+  { num: '853+', label: '外网沙箱增长因子' },
+  { num: '120万', label: '产品推广预算统筹' },
+]
+
+export default function Hero({ config }) {
+  const title = config?.hero_title || '董稼源'
+  const subtitle = config?.hero_subtitle || 'AI Product Growth Operator'
+  const desc =
+    config?.hero_desc ||
+    '在美团 Agent 平台部深耕 AI 产品运营，擅长把大模型能力翻译成业务语言——从 0 到 1 搭建知识库体系，用漏斗分析驱动增长，用数据闭环驱动产品迭代。'
+  const stats = config?.stats?.length ? config.stats : DEFAULT_STATS
+  const subtitleParts = subtitle.split(' ')
+
   return (
     <section
       id="top"
@@ -34,11 +49,11 @@ export default function Hero() {
             margin: '0 0 24px',
           }}
         >
-          董稼源
+          {title}
           <br />
-          <span className="highlight">AI Product</span>
+          <span className="highlight">{subtitleParts.slice(0, -2).join(' ') || subtitleParts[0]}</span>
           <br />
-          Growth Operator
+          {subtitleParts.slice(-2).join(' ')}
         </h1>
 
         <p
@@ -50,8 +65,7 @@ export default function Hero() {
             marginBottom: 40,
           }}
         >
-          在美团 Agent 平台部深耕 AI 产品运营，擅长把大模型能力翻译成业务语言——
-          从 0 到 1 搭建知识库体系，用漏斗分析驱动增长，用数据闭环驱动产品迭代。
+          {desc}
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center' }}>
@@ -98,19 +112,14 @@ export default function Hero() {
             flexWrap: 'wrap',
           }}
         >
-          {[
-            ['92', '高频FAQ知识条目'],
-            ['3,427', '首周跨端去重用户'],
-            ['853+', '外网沙箱增长因子'],
-            ['120万', '产品推广预算统筹'],
-          ].map(([num, label]) => (
-            <div key={label}>
+          {stats.map((s) => (
+            <div key={s.label}>
               <CountUp
-                value={num}
+                value={s.num}
                 className="font-mono"
                 style={{ fontSize: 32, fontWeight: 700, color: 'var(--cyan)' }}
               />
-              <div style={{ fontSize: 13, color: 'var(--ink-dim)', marginTop: 4 }}>{label}</div>
+              <div style={{ fontSize: 13, color: 'var(--ink-dim)', marginTop: 4 }}>{s.label}</div>
             </div>
           ))}
         </div>
